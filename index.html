@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,15 +7,22 @@
 </head>
 <body>
   <h1>Guest List</h1>
-  <input type="text" id="guestName" placeholder="Enter guest name">
-  <select id="guestCategory">
-    <option value="Friend">Friend</option>
-    <option value="Family">Family</option>
-    <option value="Colleague">Colleague</option>
-  </select>
-  <button id="addGuest">Add Guest</button>
-  <button id="resetList">Reset</button>
-  <button id="displayList">Display</button>
+
+  <form id="guestForm">
+    <input type="text" id="guestName" placeholder="Enter guest name" required>
+    <select id="guestCategory">
+      <option value="Friend">Friend</option>
+      <option value="Family">Family</option>
+      <option value="Colleague">Colleague</option>
+    </select>
+    <button type="submit">Add Guest</button>
+  </form>
+
+  
+  <div class="controls">
+    <button id="displayList">Display</button>
+    <button id="resetList">Reset</button>
+  </div>
 
   <ul id="guestList"></ul>
 
