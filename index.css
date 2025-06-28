@@ -1,6 +1,6 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to right, #e0f7fa, #fff);
+  background: linear-gradient(to right, #121313, #e7c3c3);
   color: #333;
   margin: 0;
   padding: 0;
@@ -10,14 +10,14 @@ main {
   max-width: 600px;
   margin: 40px auto;
   padding: 20px;
-  background: #ffffff;
+  background: aqua;
   border-radius: 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
   text-align: center;
-  color: #00796b;
+  color: #3553e7;
 }
 
 /* Form styles */
@@ -93,7 +93,7 @@ body.dark input,
 body.dark select,
 body.dark button {
   background-color: #333;
-  color: #fff;
+  color: #ffffff79;
   border-color: #555;
 }
 
