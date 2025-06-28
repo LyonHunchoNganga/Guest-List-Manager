@@ -3,62 +3,58 @@ const guestName = document.getElementById("guestName");
 const guestCategory = document.getElementById("guestCategory");
 const guestList = document.getElementById("guestList");
 
-// Use IDs for buttons
 const displayBtn = document.getElementById("displayBtn");
 const resetBtn = document.getElementById("resetBtn");
 const eraseBtn = document.getElementById("eraseBtn");
 
-let guests = [];
+let guests = JSON.parse(localStorage.getItem("guests")) || [];
 
-// Render function
+function saveGuests() {
+  localStorage.setItem("guests", JSON.stringify(guests));
+}
+
 function renderGuests() {
   guestList.innerHTML = "";
   guests.forEach((guest, index) => {
     const li = document.createElement("li");
-    li.textContent = `${guest.name} (${guest.category}) — ${guest.timestamp}`; // Fixed template string
-    const delBtn = document.createElement("button");
-    delBtn.textContent = "❌";
-    delBtn.onclick = () => {
-      guests.splice(index, 1);
-      renderGuests();
-    };
-    li.appendChild(delBtn);
+    li.textContent = `${guest.name} (${guest.category})`;
     guestList.appendChild(li);
   });
 }
 
-// Handle submit
 guestForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const name = guestName.value.trim();
   const category = guestCategory.value;
   if (name) {
-    guests.push({
-      name,
-      category,
-      timestamp: new Date().toLocaleString()
-    });
-    guestName.value = "";
+    guests.push({ name, category });
+    saveGuests();
     renderGuests();
-  }
-});
+    guestForm.reset();
+  }
+});displayBtn.addEventListener("click", renderGuests);
 
-// Display list
-displayBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  renderGuests();
-});
-
-// Reset list
-resetBtn.addEventListener("click", (e) => {
-  e.preventDefault();
+resetBtn.addEventListener("click", () => {
   guests = [];
+  saveGuests();
   renderGuests();
 });
 
-// Erase last guest
-eraseBtn.addEventListener("click", (e) => {
-  e.preventDefault();
+eraseBtn.addEventListener("click", () => {
   guests.pop();
+  saveGuests();
   renderGuests();
 });
+
+// Optional: restore on load
+window.addEventListener("DOMContentLoaded", renderGuests);
+const toggle = document.getElementById("darkModeToggle");
+
+toggle.addEventListener("change", () => {
+  document.body.classList.toggle("dark", toggle.checked);
+});
+// Optional: Set initial state based on localStorage
+if (localStorage.getItem("darkMode") === "true") {
+  document.body.classList.add("dark");
+  toggle.checked = true;
+}

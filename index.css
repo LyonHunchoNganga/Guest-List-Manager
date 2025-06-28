@@ -79,4 +79,28 @@ button:hover {
     align-items: stretch;
   }
 }
+body.dark {
+  background: #121212;
+  color: #eee;
+}
+
+body.dark main {
+  background: #1e1e1e;
+  box-shadow: none;
+}
+
+body.dark input,
+body.dark select,
+body.dark button {
+  background-color: #333;
+  color: #fff;
+  border-color: #555;
+}
+
+body.dark #guestList li {
+  background: #2e2e2e;
+  border-left-color: #80cbc4;
+}
+
+
 /* Responsive styles */
