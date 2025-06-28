@@ -1,58 +1,64 @@
-// Get references to DOM elements
-const guestNameInput = document.getElementById("guestName");
-const guestCategorySelect = document.getElementById("guestCategory");
 const guestForm = document.getElementById("guestForm");
-const resetBtn = document.getElementById("resetList");
-const displayBtn = document.getElementById("displayList");
-const guestListUl = document.getElementById("guestList");
+const guestName = document.getElementById("guestName");
+const guestCategory = document.getElementById("guestCategory");
+const guestList = document.getElementById("guestList");
+
+// Use IDs for buttons
+const displayBtn = document.getElementById("displayBtn");
+const resetBtn = document.getElementById("resetBtn");
+const eraseBtn = document.getElementById("eraseBtn");
 
 let guests = [];
 
-// Add guest on form submit
-guestForm.addEventListener("submit", function (e) {
-  e.preventDefault(); // Prevent form reload
+// Render function
+function renderGuests() {
+  guestList.innerHTML = "";
+  guests.forEach((guest, index) => {
+    const li = document.createElement("li");
+    li.textContent = `${guest.name} (${guest.category}) — ${guest.timestamp}`; // Fixed template string
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "❌";
+    delBtn.onclick = () => {
+      guests.splice(index, 1);
+      renderGuests();
+    };
+    li.appendChild(delBtn);
+    guestList.appendChild(li);
+  });
+}
 
-  const name = guestNameInput.value.trim();
-  const category = guestCategorySelect.value;
-
-  if (name !== "") {
-    const timestamp = new Date().toLocaleString();
-    guests.push({ name, category, timestamp });
-    guestNameInput.value = "";
+// Handle submit
+guestForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = guestName.value.trim();
+  const category = guestCategory.value;
+  if (name) {
+    guests.push({
+      name,
+      category,
+      timestamp: new Date().toLocaleString()
+    });
+    guestName.value = "";
+    renderGuests();
   }
 });
 
-// Display guest list
-displayBtn.addEventListener("click", function () {
-  renderGuestList();
+// Display list
+displayBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  renderGuests();
 });
 
-// Reset guest list
-resetBtn.addEventListener("click", function () {
+// Reset list
+resetBtn.addEventListener("click", (e) => {
+  e.preventDefault();
   guests = [];
-  renderGuestList();
+  renderGuests();
 });
 
-// Reusable function to show guest list
-function renderGuestList() {
-  guestListUl.innerHTML = "";
-
-  guests.forEach((guest, index) => {
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <strong>${guest.name}</strong> - ${guest.category}<br>
-      <small>Added: ${guest.timestamp}</small>
-      <button class="deleteBtn" data-index="${index}">Delete</button>
-    `;
-    guestListUl.appendChild(li);
-  });
-
-  // Add delete functionality
-  document.querySelectorAll(".deleteBtn").forEach(btn => {
-    btn.addEventListener("click", function () {
-      const index = parseInt(this.getAttribute("data-index"));
-      guests.splice(index, 1);
-      renderGuestList();
-    });
-  });
-}
+// Erase last guest
+eraseBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  guests.pop();
+  renderGuests();
+});
